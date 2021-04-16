@@ -21,6 +21,10 @@ connection.connect((err) => {
     beginPrompts();
 });
 
+const departmentChoices = ['Sales', 'Marketing', 'Engineering', 'Finance', 'Legal']
+
+
+
 const beginPrompts = () => {
     inquirer
         .prompt({
@@ -32,6 +36,8 @@ const beginPrompts = () => {
                 'View all employees by department',
                 'View all employees by manager',
                 'Add employee',
+                'Add department',
+                'Add role',
                 'Remove employee',
                 'Update employee role',
                 'Update employee manager'
@@ -41,13 +47,12 @@ const beginPrompts = () => {
         .then((answer) => {
             switch (answer.options) {
                 case 'View all employees':
-                    console.log('this worked');
                     viewAllEmployees();
                     break;
 
                 case 'View all employees by department':
                     console.log('this worked');
-                    beginPrompts();
+                    viewByDepartment();
                     break;
 
                 case 'View all employees by manager':
@@ -85,7 +90,7 @@ const beginPrompts = () => {
 
 
 const viewAllEmployees = () => {
-    connection.query('Select * from employee',
+    connection.query(`Select * FROM employee`,
         function (err, res) {
             if (err) throw (err)
             console.table(res)
@@ -93,4 +98,25 @@ const viewAllEmployees = () => {
         })
 }
 
+const viewByDepartment = () => {
+    inquirer
+        .prompt({
+            name: 'departmentChoices',
+            type: 'list',
+            message: 'Which department would you like to view?',
+            choices: departmentChoices
+        })
+        .then((answer) => {
+            switch (answer.options) {
+                case 'Sales':
+                    connection.query(`Select F,
+                        function (err, res) {
+                            if (err) throw (err)
+                            console.table(res);
 
+
+                        });
+                    break;
+            };
+        });
+};
