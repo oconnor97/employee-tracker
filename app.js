@@ -84,18 +84,13 @@ const beginPrompts = () => {
 };
 
 
-// const viewAllEmployees = () => {
-//     const query = 'Select employee.first_name, employee.last_name, '
-// }
+const viewAllEmployees = () => {
+    connection.query('Select * from employee',
+        function (err, res) {
+            if (err) throw (err)
+            console.table(res)
+            beginPrompts();
+        })
+}
 
-
-
-
-// CREATE TABLE employee (
-//     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-//     first_name VARCHAR(30),
-//     last_name VARCHAR(30),
-//     role_id INT,
-//     manager_id INT
-//     );
 
