@@ -21,7 +21,7 @@ connection.connect((err) => {
     beginPrompts();
 });
 
-const departmentChoices = ['Sales', 'Marketing', 'Engineering', 'Finance', 'Legal']
+// const departmentChoices = ['Sales', 'Marketing', 'Engineering', 'Finance', 'Legal']
 
 
 
@@ -34,6 +34,7 @@ const beginPrompts = () => {
             choices: [
                 'View all employees',
                 'View all employees by department',
+                'View all roles',
                 'View all employees by manager',
                 'Add employee',
                 'Add department',
@@ -43,7 +44,7 @@ const beginPrompts = () => {
                 'Update employee manager'
             ]
         })
-
+        // Takes the user response and begins a new fucntion based on the input
         .then((answer) => {
             switch (answer.options) {
                 case 'View all employees':
@@ -55,10 +56,15 @@ const beginPrompts = () => {
                     viewByDepartment();
                     break;
 
-                case 'View all employees by manager':
+                case 'View all roles':
                     console.log('this worked');
-                    beginPrompts();
+                    viewRoles();
                     break;
+
+                // case 'View all employees by manager':
+                //     console.log('this worked');
+                //     beginPrompts();
+                //     break;
 
                 case 'Add employee':
                     console.log('this worked');
@@ -90,13 +96,14 @@ const beginPrompts = () => {
 
 
 const viewAllEmployees = () => {
+    // View a list of all the employees along with their title salary and department
     connection.query('Select employee.first_name, employee.last_name, role.title, role.salary, department.department_name FROM employee JOIN role on role.id = employee.role_id JOIN department on department.id = role.department_id left join employee e on employee.manager_id = e.id;',
-        function (err, res) {
+        (err, res) => {
             if (err) throw (err)
             console.table(res)
             beginPrompts();
         })
-}
+};
 
 // const viewByDepartment = () => {
 //     inquirer
@@ -120,3 +127,13 @@ const viewAllEmployees = () => {
 //             };
 //         });
 // };
+
+
+const viewRoles = () => {
+    // Returns a list of all departments
+    connection.query('Select * From role', (err, res) => {
+        if (err) throw (err);
+        console.table(res);
+        beginPrompts()
+    })
+};
