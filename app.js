@@ -50,7 +50,7 @@ const beginPrompts = () => {
                     viewAllEmployees();
                     break;
 
-                case 'View all employees by department':
+                case 'View all departmentts':
                     console.log('this worked');
                     viewByDepartment();
                     break;
@@ -90,7 +90,7 @@ const beginPrompts = () => {
 
 
 const viewAllEmployees = () => {
-    connection.query(`Select * FROM employee`,
+    connection.query('Select employee.first_name, employee.last_name, role.title, role.salary, department.department_name FROM employee JOIN role on role.id = employee.role_id JOIN department on department.id = role.department_id left join employee e on employee.manager_id = e.id;',
         function (err, res) {
             if (err) throw (err)
             console.table(res)
@@ -98,25 +98,25 @@ const viewAllEmployees = () => {
         })
 }
 
-const viewByDepartment = () => {
-    inquirer
-        .prompt({
-            name: 'departmentChoices',
-            type: 'list',
-            message: 'Which department would you like to view?',
-            choices: departmentChoices
-        })
-        .then((answer) => {
-            switch (answer.options) {
-                case 'Sales':
-                    connection.query(`Select F,
-                        function (err, res) {
-                            if (err) throw (err)
-                            console.table(res);
+// const viewByDepartment = () => {
+//     inquirer
+//         .prompt({
+//             name: 'departmentChoices',
+//             type: 'list',
+//             message: 'Which department would you like to view?',
+//             choices: departmentChoices
+//         })
+//         .then((answer) => {
+//             switch (answer.options) {
+//                 case 'Sales':
+//                     connection.query(`Select F,
+//                         function (err, res) {
+//                             if (err) throw (err)
+//                             console.table(res);
 
 
-                        });
-                    break;
-            };
-        });
-};
+//                         });
+//                     break;
+//             };
+//         });
+// };
