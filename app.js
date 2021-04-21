@@ -89,8 +89,7 @@ const beginPrompts = () => {
 
 
                 case 'Update employee role':
-                    console.log('this worked');
-                    beginPrompts();
+                    updateEmployeeRole()
                     break;
 
 
@@ -197,6 +196,7 @@ const addDepartment = () => {
 
 
 const addRole = () => {
+    // Allows the user to create a new role and add it to the database
     inquirer
         .prompt([
             {
@@ -224,5 +224,33 @@ const addRole = () => {
             })
             console.log('role Added')
             viewRoles()
+        })
+}
+
+const updateEmployeeRole = () => {
+    // Updates the employee role based on employee id and role id
+    inquirer
+        .prompt([
+            {
+                type: 'input',
+                name: 'employeeId',
+                message: 'What is the employee id number of the employee you would like to update?'
+            },
+            {
+                type: 'input',
+                name: 'newRole',
+                message: 'What is the new role of the employee?'
+            },
+
+        ]).then((answer) => {
+            connection.query('UPDATE employee SET ? WHERE?', [{
+                role_id: answer.newRole
+            },
+            {
+                id: answer.employeeId
+            }
+            ])
+            console.log('Employee updated')
+            viewAllEmployees()
         })
 }
