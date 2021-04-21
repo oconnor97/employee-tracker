@@ -72,15 +72,13 @@ const beginPrompts = () => {
 
 
                 case 'Add department':
-                    console.log('this worked');
-                    beginPrompts();
+                    addDepartment()
                     break;
 
 
 
                 case 'Add role':
-                    console.log('this worked');
-                    beginPrompts();
+                    addRole();
                     break;
 
 
@@ -140,6 +138,7 @@ const viewRoles = () => {
 
 
 const addEmployee = () => {
+    // Creates a new employee row and then displays a new list of all employees
     inquirer
         .prompt([
             {
@@ -172,5 +171,58 @@ const addEmployee = () => {
             })
             console.log('Employee Added')
             viewAllEmployees()
+        })
+}
+
+
+const addDepartment = () => {
+    // Creates a new department then displays all departments
+    inquirer
+        .prompt([
+            {
+                type: 'input',
+                name: 'departmentName',
+                message: 'What is the name of the department you would like to add?'
+            },
+
+        ])
+        .then((answer) => {
+            connection.query('INSERT into department SET ?', {
+                department_name: answer.departmentName,
+            })
+            console.log('Department Added')
+            viewDepartments()
+        })
+}
+
+
+const addRole = () => {
+    inquirer
+        .prompt([
+            {
+                type: 'input',
+                name: 'roleName',
+                message: 'What is the name of the role you would like to add?'
+            },
+            {
+                type: 'input',
+                name: 'salary',
+                message: 'What is the starting salary of the role you are adding?'
+            },
+            {
+                type: 'input',
+                name: 'departmentId',
+                message: 'What is the department id for the role you would like to add?'
+            },
+
+        ])
+        .then((answer) => {
+            connection.query('INSERT into role SET ?', {
+                title: answer.roleName,
+                salary: answer.salary,
+                department_id: answer.departmentId
+            })
+            console.log('role Added')
+            viewRoles()
         })
 }
