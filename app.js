@@ -21,7 +21,7 @@ connection.connect((err) => {
     beginPrompts();
 });
 
-// const departmentChoices = ['Sales', 'Marketing', 'Engineering', 'Finance', 'Legal']
+
 
 
 
@@ -61,20 +61,33 @@ const beginPrompts = () => {
                     viewRoles();
                     break;
 
-                case 'View all employees by manager':
-                    console.log('this worked');
-                    beginPrompts();
-                    break;
+                // case 'View all employees by manager':
+                //     console.log('this worked');
+                //     beginPrompts();
+                //     break;
 
                 case 'Add employee':
+                    addEmployee();
+                    break;
+
+
+                case 'Add department':
                     console.log('this worked');
                     beginPrompts();
                     break;
 
-                case 'Remove employee':
+
+
+                case 'Add role':
                     console.log('this worked');
                     beginPrompts();
                     break;
+
+
+                // case 'Remove employee':
+                //     console.log('this worked');
+                //     beginPrompts();
+                //     break;
 
 
                 case 'Update employee role':
@@ -83,10 +96,10 @@ const beginPrompts = () => {
                     break;
 
 
-                case 'Update employee manager':
-                    console.log('this worked');
-                    beginPrompts();
-                    break;
+                // case 'Update employee manager':
+                //     console.log('this worked');
+                //     beginPrompts();
+                //     break;
 
             };
 
@@ -124,3 +137,40 @@ const viewRoles = () => {
         beginPrompts()
     })
 };
+
+
+const addEmployee = () => {
+    inquirer
+        .prompt([
+            {
+                type: 'input',
+                name: 'firstName',
+                message: 'What is the first name of the employee?'
+            },
+            {
+                type: 'input',
+                name: 'lastName',
+                message: 'What is the last name of the employee?'
+            },
+            {
+                type: 'input',
+                name: 'roleId',
+                message: 'What is the employee role id?'
+            },
+            {
+                type: 'input',
+                name: 'managerId',
+                message: 'What is the emploee manager id?'
+            },
+        ])
+        .then((answer) => {
+            connection.query('INSERT into employee SET ?', {
+                first_name: answer.firstName,
+                last_name: answer.lastName,
+                role_id: answer.roleId,
+                manager_id: answer.managerId
+            })
+            console.log('Employee Added')
+            viewAllEmployees()
+        })
+}
